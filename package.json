@@ -35,12 +35,16 @@
     "postcss": "npx postcss src/css/**/*.css --use autoprefixer -d css/",
     "watch": "npx gulp watch",
     "babel": "npx babel src/js/**/*.js --out-dir js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor . && @php ./vendor/squizlabs/php_codesniffer/bin/phpcbf && @php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write",
     "*.css": "stylelint --fix",
-    "*.php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor . && @php ./vendor/squizlabs/php_codesniffer/bin/phpcbf && @php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+    "*.php": [
+      "@php ./vendor/bin/parallel-lint",
+      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+    ]
   }
 }
