@@ -15,18 +15,17 @@ const uglify = require("gulp-uglify");
 gulp.task("scripts", function () {
   return gulp
     .src("src/js/**/*.js")
+    .pipe(sourcemaps.init())
     .pipe(
       babel({
         presets: ["@babel/env"],
       })
     )
-    .pipe(sourcemaps.init())
-    .pipe(gulp.dest("./js"))
     .pipe(rename({ suffix: ".min" }))
     .pipe(uglify())
-    .pipe(sourcemaps.write("."))
     .pipe(livereload(server))
-    .pipe(gulp.dest("./js"))
+    .pipe(sourcemaps.write("."))
+    .pipe(gulp.dest("./assets"))
     .pipe(notify({ message: "Scripts task complete" }));
 });
 
@@ -35,12 +34,12 @@ gulp.task("styles", function () {
     .src("./src/css/**/*.css")
     .pipe(sourcemaps.init())
     .pipe(postcss([autoprefixer(), postcssPresetEnv()]))
-    .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("./css"))
     .pipe(rename({ suffix: ".min" }))
     .pipe(minifycss())
     .pipe(livereload(server))
-    .pipe(gulp.dest("./css"))
+    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write("."))
+    .pipe(gulp.dest("./assets"))
     .pipe(notify({ message: "Styles task complete" }));
 });
 
